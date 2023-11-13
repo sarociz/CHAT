@@ -2,8 +2,9 @@ import javax.swing.*;
 
 public class GUICliente {
     private JPanel panel1;
-    private JButton button1;
-    private JTextArea textArea1;
-    private JTextField textField2;
-    private JButton button2;
+    private JButton salirButton;
+    private JTextArea chatTextArea;
+    private JTextField mensajeTF;
+    private JButton enviarButton;
+    private JScrollPane chatScroll;
 }
