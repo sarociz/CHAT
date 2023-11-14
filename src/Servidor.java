@@ -2,21 +2,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Servidor {
+    private List<PrintWriter> clientes = new ArrayList<>();
     private static final int PORT = 12345;
     private static Set<PrintWriter> writers = new HashSet<>();
 
     public static void main(String[] args) {
+        new Servidor().iniciarServidor();
+    }
+
+    public void iniciarServidor() {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Servidor de chat iniciado en el puerto " + PORT);
+            System.out.println("Servidor en línea. Esperando conexiones...");
 
             while (true) {
-                Socket clientSocket = serverSocket.accept();
-                new Thread(new ClientHandler(clientSocket)).start();
+                Socket clienteSocket = serverSocket.accept();
+                new Thread(new ClientHandler(clienteSocket)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,6 +68,13 @@ public class Servidor {
             for (PrintWriter writer : writers) {
                 writer.println(message);
             }
+        }
+    }
+
+    private void enviarMensajeATodos(String mensaje) {
+        System.out.println("Mensaje recibido: " + mensaje);
+        for (PrintWriter cliente : clientes) {
+            cliente.println(mensaje);
         }
     }
 }
